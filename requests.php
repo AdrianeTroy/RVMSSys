@@ -1,9 +1,9 @@
 <?php 
-  session_start();
+session_start();
 
-  if (!isset($_SESSION["email"])) {
-    header ("Location: login.php");
-  }
+if (!isset($_SESSION["staff"])) {
+  header ("Location: admin/login.php");
+}
 ?>
 
 <html> 
@@ -52,7 +52,7 @@
 					</li>
 
 					<li class="nav-item active">
-					    <a class="nav-link" href="web-tab-schedules.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
+					    <a class="nav-link" href="requests.php"><i class="fa fa-envelope"></i>	Requests<span class="sr-only"></span></a>
 					</li>
 
 
@@ -82,8 +82,74 @@
 
 <div class="border border-top-0 border-left-0 border-right-0 pl-3 mb-5"></div> <!--divider-->
 
-<div class="container">
-	<h1 align="center">LIST OF APPROVED/DISAPPROVED REQUESTS TO BE SENT HERE</h1>
+<div class="container-xl">
+		<a href="<?php $_SERVER['PHP_SELF']; ?>" 
+		class = "btn btn-primary"><span class="glyphicon glyphicon-refresh">Refresh</span></a>
+		<?php
+			if(isset($_SESSION['status'])) {
+				echo $_SESSION['status'];
+				unset($_SESSION['status']);
+			}
+		?>
+		<br><br>
+
+		<nav class="blog-nav nav nav-justified">
+				<a class="nav-link-prev nav-item nav-link " href="#.php">Individual</a>
+				<a class="nav-link-next nav-item nav-link " href="requests_grp.php">Group</a>
+		</nav>
+  		<table class="table table-light table-bordered table-hover">
+  			<thead class="thead-dark">
+  				<tr>
+					<th scope="col">Date Created</th>
+					<th scope="col">First Name</th>
+					<th scope="col">Middle Name</th>
+					<th scope="col">Last name</th>
+					<th scope="col">Email</th>
+					<th scope="col">Contact Number</th>
+					<th scope="col">Facility</th>
+					<th scope="col">Date Picked (date/time)</th>
+					<th scrope="col">Remarks</th>
+					<th scrope="col">Send</th>
+				</tr>
+			</thead>
+			<tbody>
+  				<?php
+					include_once('dbcon.php');
+					$sql = $conn->query("SELECT * FROM individual_requests");
+
+					while ($row = mysqli_fetch_array($sql)) {
+						?>
+						<tr>
+							<td><?php echo $row['date_created']?></td>
+							<td><?php echo $row['fname']?></td>
+							<td><?php echo $row['mname']?></td>
+							<td><?php echo $row['lname']?></td>
+							<td><?php echo $row['ind_email']?></td>
+							<td><?php echo $row['contact_num']?></td>
+							<td><?php echo $row['facility'];?></td>
+							<td><?php echo $row['eventdt']?></td>
+							<td><?php if (!$row['remarks']) {
+								echo "<h4 align='center' style='color:blue;'>"."Pending"."</h4>";
+							} else {
+								echo $row['remarks'];
+							}?></td>
+							<td><form action="send.php" method="post">
+								<input type="hidden" name="email" value="<?php echo $row['ind_email']?>">
+								<input type="hidden" name="lastname" value="<?php echo $row['lname']?>">
+								<input type="hidden" name="facilityname" value="<?php echo $row['facility']?>">
+								<input type="hidden" name="eventdate" value="<?php echo $row['eventdt']?>">
+								<input type="hidden" name="remarks" value="<?php echo $row['remarks']?>">
+								<input type="hidden" name="contact_num" value="<?php echo $row['contact_num']?>">
+								<input type="submit" name="send" class="btn btn-success" value="Send">
+								<br>
+							</form>
+							</td>
+						</tr>
+						<?php
+					}
+				?>
+			</tbody>
+		</table>
 <div>
 	    </section>
 	    

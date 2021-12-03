@@ -55,7 +55,7 @@
 			<div id="navigation" class="collapse navbar-collapse flex-column">
 				<div class="profile-section pt-3 pt-lg-0">
 				    <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/ppc-logo.png" alt="image" >			
-					
+					<h4><?php echo "Guest"; ?></h4>
 			        <hr> 
 				</div><!--//profile-section-->
 				
@@ -68,7 +68,7 @@
 					</li>
 
 					<li class="nav-item">
-					    <a class="nav-link" href="../web-tab-schedules.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
+					    <a class="nav-link" href="../calendar.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item">

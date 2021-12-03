@@ -1,9 +1,9 @@
 <?php 
-  session_start();
+session_start();
 
-  if (!isset($_SESSION["admin"])) {
-    header ("Location: login.php");
-  }
+if (!isset($_SESSION["staff"])) {
+  header ("Location: admin/login.php");
+}
 ?>
 
 <html> 
@@ -15,11 +15,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/images/ppc-logo.png"> 
-    <link rel="stylesheet" href="../style.css" media="screen">
+    <link rel="stylesheet" href="style.css" media="screen">
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-	<script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js"></script>
-
+    <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js"></script>
     <!-- NAVBAR JS -->          
     <script src="assets/plugins/jquery-3.3.1.min.js"></script>
     <script src="assets/plugins/bootstrap/js/bootstrap.min.js"></script>
@@ -41,20 +39,20 @@
 			<div id="navigation" class="collapse navbar-collapse flex-column">
 				<div class="profile-section pt-3 pt-lg-0">
 				    <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/ppc-logo.png" alt="image" >			
-            <h4><?php echo "Admin"; ?></h4>
+            <h4><?php echo "Staff"; ?></h4>
 			        <hr> 
 				</div>
 				
 				<ul class="navbar-nav flex-column text-left">
 					<li class="nav-item">
-					    <a class="nav-link" i="fa" href="index.php"><i class="fa fa-home" ></i> Home<span class="sr-only"></span></a>
+					    <a class="nav-link" i="fa" href="staff_page.php"><i class="fa fa-home" ></i> Home<span class="sr-only"></span></a>
 					</li>
 					<li class="nav-item">
-					    <a class="nav-link" href="add.php"><i class="fa fa-plus"></i>	Add<span class="sr-only"></span></a>
+					    <a class="nav-link" href="add_staff.php"><i class="fa fa-plus"></i>	Add<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item active">
-					    <a class="nav-link" href="web-tab-schedules.php"><i class="fa fa-edit"></i>	Update<span class="sr-only"></span></a>
+					    <a class="nav-link" href="requests.php"><i class="fa fa-envelope"></i>	Requests<span class="sr-only"></span></a>
 					</li>
 
 
@@ -85,61 +83,61 @@
 <div class="border border-top-0 border-left-0 border-right-0 pl-3 mb-5"></div> <!--divider-->
 
 <div class="container-xl">
-			<a href="<?php $_SERVER['PHP_SELF']; ?>" 
-				class = "btn btn-primary"><span class="glyphicon glyphicon-refresh">Refresh</span></a>
-			<?php
-				if(isset($_SESSION['status'])) {
-					echo $_SESSION['status'];
-					unset($_SESSION['status']);
-				}
-			?>
-			<br><br>
-			<nav class="blog-nav nav nav-justified">
-					<a class="nav-link-prev nav-item nav-link " href="#.php">Individual</a>
-					<a class="nav-link-next nav-item nav-link " href="web-tab-schedules-group.php">Group<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
-			</nav>	
+        <a href="<?php $_SERVER['PHP_SELF']; ?>" 
+		class = "btn btn-primary"><span class="glyphicon glyphicon-refresh">Refresh</span></a>
+        <br><br>
+		<nav class="blog-nav nav nav-justified">
+				<a class="nav-link-prev nav-item nav-link " href="requests.php">Individual</a>
+				<a class="nav-link-next nav-item nav-link " href="#.php">Group</a>
+		</nav>
   		<table class="table table-light table-bordered table-hover">
   			<thead class="thead-dark">
   				<tr>
 					<th scope="col">Date Created</th>
-					<th scope="col">First Name</th>
-					<th scope="col">Middle Name</th>
-					<th scope="col">Last name</th>
-					<th scope="col">Email</th>
-					<th scope="col">Contact Number</th>
+					<th scope="col">Title</th>
+					<th scope="col">Description</th>
 					<th scope="col">Facility</th>
-					<th scope="col">Date Picked (date/time)</th>
-					<th scope="col">ID Picture</th>
-					<th scrope="col">Remarks</th>
-					<th scrope="col">Edit</th>
+					<th scope="col">No. of Participants</th>
+					<th scope="col">Date of Event</th>
+					<th scope="col">Requester Name</th>
+					<th scope="col">Email</th>
+					<th scrope="col">Contact Number</th>
+                    <th scrope="col">Remarks</th>
+					<th scrope="col">Send</th>
 				</tr>
 			</thead>
 			<tbody>
   				<?php
-					include_once('../dbcon.php');
-					$sql = $conn->query("SELECT * FROM individual_requests ");
+					include_once('dbcon.php');
+					$sql = $conn->query("SELECT * FROM group_requests");
 
 					while ($row = mysqli_fetch_array($sql)) {
 						?>
 						<tr>
-							<td><?php echo $row['date_created']?></td>
-							<td><?php echo $row['fname']?></td>
-							<td><?php echo $row['mname']?></td>
-							<td><?php echo $row['lname']?></td>
-							<td><?php echo $row['ind_email']?></td>
-							<td><?php echo $row['contact_num']?></td>
-							<td><?php echo $row['facility'];?></td>
-							<td><?php echo $row['eventdt']?></td>
-							<td><?php echo '<img src="data:image;base64,'.base64_encode($row['img_id']).'"alt=image" style="width: 100px; height: 100px">'?></td>
-							<td><?php echo $row['remarks']?></td>
-							<td>
-								<a href ="remarks.php?updateiid=<?php echo $row['id']; ?>" 
-								class = "btn btn-success">Approve</a>
-								<a href ="remarks_dp.php?updateiid=<?php echo $row['id']; ?>" 
-								class = "btn btn-warning">Disapprove</a>
-								<br><br>
-								<a href ="remarks_del.php?deleteid=<?php echo $row['id']; ?>" 
-								class = "btn btn-danger">Delete</a>
+							<td><?php echo $row['date_createdgrp']?></td>
+							<td><?php echo $row['title']?></td>
+							<td><?php echo $row['desc_grp']?></td>
+							<td><?php echo $row['facility_use']?></td>
+							<td><?php echo $row['num_par']?></td>
+							<td><?php echo $row['event_dt']?></td>
+							<td><?php echo $row['req_name'];?></td>
+							<td><?php echo $row['email_add']?></td>
+                            <td><?php echo $row['con_num']?></td>
+							<td><?php if (!$row['remarks']) {
+								echo "<h4 align='center' style='color:blue;'>"."Pending"."</h4>";
+							} else {
+								echo $row['remarks'];
+							}?></td>
+								<td><form action="send.php" method="post">
+								<input type="hidden" name="email" value="<?php echo $row['email_add']?>">
+								<input type="hidden" name="lastname" value="<?php echo $row['req_name']?>">
+								<input type="hidden" name="facilityname" value="<?php echo $row['facility_use']?>">
+								<input type="hidden" name="eventdate" value="<?php echo $row['event_dt']?>">
+								<input type="hidden" name="remarks" value="<?php echo $row['remarks']?>">
+								<input type="hidden" name="contact_num" value="<?php echo $row['con_num']?>">
+								<input type="submit" name="send" class="btn btn-success" value="Send">
+								<br>
+							</form>
 							</td>
 						</tr>
 						<?php
@@ -157,5 +155,7 @@
 	    </footer>
     
 </div><!--//main-wrapper-->
+     
 </body>
 </html> 
+

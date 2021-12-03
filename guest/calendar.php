@@ -1,20 +1,12 @@
-<?php
-session_start();
-
-if (!isset($_SESSION["staff"])) {
-  header ("Location: admin/login.php");
-}
-?>
-
 <!DOCTYPE html>
 <html>
  <head>
- <title>City Sports Complex | Staff</title>
+  <title>Calendar Schedule</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="assets/images/ppc-logo.png"> 
-    <link rel="stylesheet" href="style.css" media="screen">
+    <link rel="stylesheet" href="../style.css" media="screen">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.css" />
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -23,21 +15,21 @@ if (!isset($_SESSION["staff"])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
 <?php
-include('dbcon.php');
+include('../dbcon.php');
 $query = $conn->query("SELECT * FROM events ORDER BY id");
 ?>
   <script>
     $(document).ready(function() {
      var calendar = $('#calendar').fullCalendar({
-      editable:true,
+      editable:false,
       header:{
        left:'prev,next today',
        center:'title',
        right:'month,agendaWeek,agendaDay'
       },
       events: [<?php while ($row = $query ->fetch_object()) { ?>{ id : '<?php echo $row->id; ?>', title : '<?php echo $row->title; ?>', start : '<?php echo $row->start_event; ?>', end : '<?php echo $row->end_event; ?>', }, <?php } ?>],
-      selectable:true,
-      selectHelper:true,
+      selectable:false,
+      selectHelper:false,
       select: function(start, end, allDay)
       {
       var title = prompt("Enter Event Title");
@@ -59,7 +51,7 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
       }
       },
  
-      editable:true,
+      editable:false,
       eventResize:function(event)
       {
       var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
@@ -95,25 +87,6 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
       });
       },
  
-      eventClick:function(event)
-      {
-      if(confirm("Are you sure you want to remove it?"))
-      {
-        var id = event.id;
-        $.ajax({
-        url:"delete.php",
-        type:"POST",
-        data:{id:id},
-        success:function()
-        {
-          calendar.fullCalendar('refetchEvents');
-          alert("Event Removed");
-          window.location.replace("staff_page.php");
-        }
-        })
-      }
-      },
- 
     });
   });
 </script>
@@ -142,26 +115,29 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
 
 			<div id="navigation" class="collapse navbar-collapse flex-column">
 				<div class="profile-section pt-3 pt-lg-0">
-				    <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/ppc-logo.png" alt="image" >			
-            <h4><?php echo "Staff"; ?></h4>
-			        <hr> 
+				    <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/ppc-logo.png" alt="image" >
+			        <h4><?php echo "Guest"; ?></h4>
+                    <hr> 
 				</div><!--//profile-section-->
 				
 				<ul class="navbar-nav flex-column text-left">
+                <li class="nav-item">
+					    <a class="nav-link" i="fa" href="guest_page.php"><i class="fa fa-home" ></i> Home<span class="sr-only"></span></a>
+					</li>
+					<li class="nav-item">
+					    <a class="nav-link" href="web-tab-facility.php"><i class="fa fa-building"></i>	Facility<span class="sr-only"></span></a>
+					</li>
+
 					<li class="nav-item active">
-					    <a class="nav-link" href="staff_page.php"><i class="fa fa-home"></i> Home<span class="sr-only"></span></a>
+					    <a class="nav-link" href="calendar.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item">
-					    <a class="nav-link" href="add_staff.php"><i class="fa fa-plus"></i>	Add<span class="sr-only"></span></a>
+					    <a class="nav-link" href="web-tab-request.php"><i class="fa fa-envelope"></i>	Request<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item">
-					    <a class="nav-link" i="fa" href="requests.php"><i class="fa fa-envelope"></i>	Requests<span class="sr-only">(current)</span></a>
-					</li>
-
-					<li class="nav-item">
-					    <a class="nav-link" href="admin/logout.php"><i class="fa fa-sign-out-alt"></i>	Logout<span class="sr-only"></span></a>
+					    <a class="nav-link" href="web-tab-aboutus.php"><i class="fa fa-question"></i>	About Us<span class="sr-only"></span></a>
 					</li>
 
 				</ul>

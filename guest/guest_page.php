@@ -1,6 +1,6 @@
 <html> 
 <head>
-    <title>City Sports Complex | Home</title>
+<title>City Sports Complex | Guest</title>
 
     <!-- Meta -->
     <meta charset="utf-8">
@@ -46,7 +46,7 @@
 					</li>
 
 					<li class="nav-item">
-					    <a class="nav-link" href="#"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
+					    <a class="nav-link" href="calendar.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item">

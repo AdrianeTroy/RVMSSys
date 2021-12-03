@@ -1,5 +1,5 @@
 <?php 
-
+	session_start();
 ?>
 
 <html> 
@@ -61,7 +61,7 @@
 			<div id="navigation" class="collapse navbar-collapse flex-column">
 				<div class="profile-section pt-3 pt-lg-0">
 				    <img class="profile-image mb-3 rounded-circle mx-auto" src="assets/images/ppc-logo.png" alt="image" >			
-					
+					<h4><?php echo "Guest"; ?></h4>
 			        <hr> 
 				</div><!--//profile-section-->
 				
@@ -75,7 +75,7 @@
 					</li>
 
 					<li class="nav-item">
-					    <a class="nav-link" href="web-tab-schedules.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
+					    <a class="nav-link" href="calendar.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item active">
@@ -115,7 +115,7 @@
 			<div class="card card-body mt-3 mb-3 ml-3 mr-3" id="skybluebg">
         	<h2>Group</h2>
         	<p>Request Schedule Form</p>
-          	<form action="" method="post" enctype="multipart/form-data">
+          	<form action="group.php" method="post" enctype="multipart/form-data">
 			<div class="form-group col-md-6">
 				<div class="form-group">
 					<label>Title:<span style="color:red;"><sup>*</sup></span></label>
@@ -124,16 +124,17 @@
 				</div> 
 				<div class="form-group">
 					<label>Description:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="text" name="Description" class="form-control form-control-lg" value="" required>
+					<input type="text" name="descr" class="form-control form-control-lg" value="" required>
 					<span class="invalid-feedback"></span>
 				</div> 
 				<div class="form-group">
 					<label>Facility Use:<span style="color:red;"><sup>*</sup></span></label><br>
-					<select name="facility name" class="form-control-lg" value="" required>
-						<option>Basketball</option>
-						<option>Gym</option>
-						<option>Swimming Pool</option>
-						<option>Volleyball</option>
+					<select name="facility_name" class="form-control-lg" value="" required>
+					<option value="">--SELECT FACILITY--</option>
+						<option value="Basketball">Basketball</option>
+						<option value="Gym">Gym</option>
+						<option value="Swimming Pool">Swimming Pool</option>
+						<option value="Volleyball">Volleyball</option>
 					</select>
 					<span class="invalid-feedback"></span>
 				</div> 
@@ -162,19 +163,30 @@
 				</div> 
 				<div class="form-group">
 					<label>Contact Number:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="text" name="contact" class="form-control form-control-lg" value="">
+					<input type="number" name="contact" class="form-control form-control-lg" oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="11" value="">
 					<span class="invalid-feedback"></span>
 				</div>
 				
 				<div class="form-group">
-					<form action="upload.php" method="post" enctype="multipart/form-data">
 					<label for="fileToUpload">Insert request letter:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="file" name="fileToUpload" id="fileToUpload">
+					<input type="file" name="fileToUpload" id="fileToUpload" accept="application/pdf"required>
+				</div>
+				<div class="form-group">
+					<input type="checkbox" value="" id="invalidCheck" required>
+						<label class="form-check-label" for="invalidCheck">Agree to terms and conditions</label>
 				</div>
 			
 				<div class="col" align="center">
-					<input type="submit" class="btn btn-primary btn-block" style="height:40px; width:200px" value="Submit">
+					<input type="submit" name="grp" class="btn btn-primary btn-block" style="height:40px; width:200px" value="Submit">
             	</div>
+				<div class="col">
+					<?php
+						if(isset($_SESSION['status'])) {
+							echo $_SESSION['status'];
+							unset($_SESSION['status']);
+						}
+					?>		
+				</div>
             </div>
           	</form>
         	</div>

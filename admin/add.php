@@ -1,5 +1,9 @@
 <?php 
+  session_start();
 
+  if (!isset($_SESSION["admin"])) {
+    header ("Location: login.php");
+  }
 ?>
 
 <html> 
@@ -106,7 +110,7 @@
 			
 			<div class="card card-body mt-3 mb-3 ml-3 mr-3" id="skybluebg">
         	<h2 align="center">Add Schedule</h2>
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="admin_add.php" method="post" enctype="multipart/form-data">
               <div class="form-group col-md-6">
                 <div class="form-group">
                     <label>Title:<span style="color:red;"><sup>*</sup></span></label>
@@ -153,7 +157,7 @@
                 </div> 
                 <div class="form-group">
                     <label>Contact Number:<span style="color:red;"><sup>*</sup></span></label>
-                    <input type="text" name="contact" class="form-control form-control-lg" value="">
+                    <input type="number" name="contact" class="form-control form-control-lg" oninput="this.value=this.value.slice(0,this.maxLength)" maxlength="11" value="">
                     <span class="invalid-feedback"></span>
                 </div>
                 
@@ -164,15 +168,21 @@
                 </div>
                 <div class="form-group">
                     <label>Remarks: <span style="color:red;"><sup>*</sup></span></label><br>
-                    <select name="facility name" class="form-control-lg" value="" required>
+                    <select name="remark" class="form-control-lg" value="" required>
                         <option>Approved</option>
                         <option>Disapproved</option>
                     </select>
                     <span class="invalid-feedback"></span>
                 </div> 
             <div class="col" align="right">
-                <input type="submit" class="btn btn-primary btn-block" style="height:40px; width:200px" value="Submit">
+                <input type="submit" name="adminadd" class="btn btn-primary btn-block" style="height:40px; width:200px" value="Submit">
             </div>
+            <?php
+			if(isset($_SESSION['status'])) {
+				echo $_SESSION['status'];
+				unset($_SESSION['status']);
+			}
+		?>
           	</form>
               </div>
         	</div>

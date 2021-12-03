@@ -1,8 +1,7 @@
 <?php
-//initialize session
 session_start();
 
-if (!isset($_SESSION["email"])) {
+if (!isset($_SESSION["admin"])) {
   header ("Location: login.php");
 }
 ?>
@@ -10,7 +9,7 @@ if (!isset($_SESSION["email"])) {
 <!DOCTYPE html>
 <html>
  <head>
-  <title>Calendar Schedule</title>
+  <title>City Sports Complex | Admin</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,7 +33,7 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
       header:{
        left:'prev,next today',
        center:'title',
-       right:'month,agendaWeek,agendaDay'
+       right:'month,agendaWeek,agendaDay' 
       },
       events: [<?php while ($row = $query ->fetch_object()) { ?>{ id : '<?php echo $row->id; ?>', title : '<?php echo $row->title; ?>', start : '<?php echo $row->start_event; ?>', end : '<?php echo $row->end_event; ?>', }, <?php } ?>],
       selectable:true,
@@ -47,7 +46,7 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
         var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
         var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
         $.ajax({
-        url:"insert.php",
+        url:"../insert.php",
         type:"POST",
         data:{title:title, start:start, end:end},
         success:function(data)
@@ -68,7 +67,7 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
       var title = event.title;
       var id = event.id;
       $.ajax({
-        url:"update.php",
+        url:"../update.php",
         type:"POST",
         data:{title:title, start:start, end:end, id:id},
         success:function(){
@@ -85,7 +84,7 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
       var title = event.title;
       var id = event.id;
       $.ajax({
-        url:"update.php",
+        url:"../update.php",
         type:"POST",
         data:{title:title, start:start, end:end, id:id},
         success:function()
@@ -102,14 +101,14 @@ $query = $conn->query("SELECT * FROM events ORDER BY id");
       {
         var id = event.id;
         $.ajax({
-        url:"delete.php",
+        url:"../delete.php",
         type:"POST",
         data:{id:id},
         success:function()
         {
           calendar.fullCalendar('refetchEvents');
           alert("Event Removed");
-          window.location.replace("web-tab-schedules.php");
+          window.location.replace("index.php");
         }
         })
       }

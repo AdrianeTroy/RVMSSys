@@ -87,29 +87,30 @@
 <div class="container-xl">
 			<a href="<?php $_SERVER['PHP_SELF']; ?>" 
 				class = "btn btn-primary"><span class="glyphicon glyphicon-refresh">Refresh</span></a>
-			<?php
-				if(isset($_SESSION['status'])) {
-					echo $_SESSION['status'];
-					unset($_SESSION['status']);
-				}
-			?>
 			<br><br>
 			<nav class="blog-nav nav nav-justified">
-					<a class="nav-link-prev nav-item nav-link " href="#.php">Individual</a>
-					<a class="nav-link-next nav-item nav-link " href="web-tab-schedules-group.php">Group<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
-			</nav>	
+					<a class="nav-link-prev nav-item nav-link" href="web-tab-schedules.php">Individual</a>
+					<a class="nav-link-next nav-item nav-link" href="#.php">Group<i class="arrow-next fas fa-long-arrow-alt-right"></i></a>
+			</nav>
+		<?php
+			if(isset($_SESSION['status'])) {
+				echo $_SESSION['status'];
+				unset($_SESSION['status']);
+			}
+		?>	
   		<table class="table table-light table-bordered table-hover">
   			<thead class="thead-dark">
   				<tr>
 					<th scope="col">Date Created</th>
-					<th scope="col">First Name</th>
-					<th scope="col">Middle Name</th>
-					<th scope="col">Last name</th>
+					<th scope="col">Title</th>
+					<th scope="col">Description</th>
+					<th scope="col">Facility</th>
+					<th scope="col">Number of Participants</th>
+					<th scope="col">Date of the Event</th>
+					<th scope="col">Requester Name</th>
 					<th scope="col">Email</th>
 					<th scope="col">Contact Number</th>
-					<th scope="col">Facility</th>
-					<th scope="col">Date Picked (date/time)</th>
-					<th scope="col">ID Picture</th>
+					<th scope="col">Letter of Request</th>
 					<th scrope="col">Remarks</th>
 					<th scrope="col">Edit</th>
 				</tr>
@@ -117,28 +118,30 @@
 			<tbody>
   				<?php
 					include_once('../dbcon.php');
-					$sql = $conn->query("SELECT * FROM individual_requests ");
+					$sql = $conn->query("SELECT * FROM group_requests");
 
 					while ($row = mysqli_fetch_array($sql)) {
 						?>
 						<tr>
-							<td><?php echo $row['date_created']?></td>
-							<td><?php echo $row['fname']?></td>
-							<td><?php echo $row['mname']?></td>
-							<td><?php echo $row['lname']?></td>
-							<td><?php echo $row['ind_email']?></td>
-							<td><?php echo $row['contact_num']?></td>
-							<td><?php echo $row['facility'];?></td>
-							<td><?php echo $row['eventdt']?></td>
-							<td><?php echo '<img src="data:image;base64,'.base64_encode($row['img_id']).'"alt=image" style="width: 100px; height: 100px">'?></td>
+							<td><?php echo $row['date_createdgrp']?></td>
+							<td><?php echo $row['title']?></td>
+							<td><?php echo $row['desc_grp']?></td>
+							<td><?php echo $row['facility_use']?></td>
+							<td><?php echo $row['num_par']?></td>
+							<td><?php echo $row['event_dt']?></td>
+							<td><?php echo $row['req_name'];?></td>
+							<td><?php echo $row['email_add']?></td>
+							<td><?php echo $row['con_num']?></td>
+							<td><a href="../upload/<?php echo $row['doc_upl']; ?>" download>Download</a></td>
 							<td><?php echo $row['remarks']?></td>
 							<td>
-								<a href ="remarks.php?updateiid=<?php echo $row['id']; ?>" 
+								<a href ="remarks_grp.php?updateid=<?php echo $row['id']; ?>" 
 								class = "btn btn-success">Approve</a>
-								<a href ="remarks_dp.php?updateiid=<?php echo $row['id']; ?>" 
+								<br>
+								<a href ="remarks_grpdp.php?updateid=<?php echo $row['id']; ?>" 
 								class = "btn btn-warning">Disapprove</a>
 								<br><br>
-								<a href ="remarks_del.php?deleteid=<?php echo $row['id']; ?>" 
+								<a href ="remarks_delgrp.php?deleteid=<?php echo $row['id']; ?>" 
 								class = "btn btn-danger">Delete</a>
 							</td>
 						</tr>

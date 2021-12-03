@@ -6,6 +6,7 @@
   $password = '';
   $email_err = '';
   $password_err = '';
+  $usertype = '';
 
 
   if($_SERVER['REQUEST_METHOD'] === 'POST'){
@@ -23,10 +24,10 @@
     }
 
     if(empty($email_err) && empty($password_err)){
-        $sql = 'SELECT fname, lname, email, password, usertype from users where email = :email';
+        $sql = 'SELECT fname, lname, email, password, usertype FROM users WHERE email = :email';
 
         if($stmt = $pdo->prepare($sql)){
-          $stmt->bindParam(':email', $email,PDO::PARAM_STR);
+          $stmt->bindParam(':email', $email, PDO::PARAM_STR);
 
           if( $stmt->execute()){
             if($stmt->rowCount() == 1){
@@ -34,11 +35,11 @@
                 $hashed_password = $row['password'];
                 if(password_verify($password, $hashed_password)){
                   if ($row["usertype"]=="admin") {
-                    $_SESSION["email"]=$email;
+                    $_SESSION["admin"]=$usertype;
                     header ("location: index.php");
                   }
                   elseif($row["usertype"]=="staff") {
-                    $_SESSION["email"]=$email;
+                    $_SESSION["staff"]=$usertype;
                     header ("location: ../staff_page.php");
                   }
                 } else {

@@ -1,3 +1,6 @@
+<?php
+	session_start();
+?>
 <html> 
 <head>
     <title>City Sports Complex | Request</title>
@@ -71,7 +74,7 @@
 					</li>
 
 					<li class="nav-item">
-					    <a class="nav-link" href="web-tab-schedules.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
+					    <a class="nav-link" href="calendar.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item active">
@@ -111,58 +114,71 @@
 			<div class="card card-body mt-3 mb-3 ml-3 mr-3" id="skybluebg">
         	<h2>Individual</h2>
         	<p>Request Schedule Form</p>
-			<form action="" method="post" enctype="multipart/form-data">
+			<form action="individual.php" method="post" enctype="multipart/form-data">
 			<div class="form-group col-md-6">
 				<div class="form-group">
 					<label>Firstname:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="text" name="firstname" class="form-control form-control-lg" value="" required>
+					<input type="text" name="fname" class="form-control form-control-lg" value="" required>
 					<span class="invalid-feedback"></span>
 				</div> 
 				<div class="form-group">
-					<label>Middlename:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="text" name="middlename" class="form-control form-control-lg" value="" required>
+					<label>Middlename:</span></label>
+					<input type="text" name="mname" class="form-control form-control-lg" value="">
 					<span class="invalid-feedback"></span>
 				</div> 
 				<div class="form-group">
 					<label>Lastname:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="text" name="lastname" class="form-control form-control-lg" value="" required>
+					<input type="text" name="lname" class="form-control form-control-lg" value="" required>
 					<span class="invalid-feedback"></span>
 				</div> 
 				<div class="form-group">
 					<label>Email Address:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="email" name="email" class="form-control form-control-lg" value="" required>
+					<input type="email" name="ind_email" class="form-control form-control-lg" value="" required>
 					<span class="invalid-feedback"></span>
 				</div> 
 				<div class="form-group">
 					<label>Contact Number:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="text" name="contact" class="form-control form-control-lg" value="" maxlength="11">
+					<input type="number" name="contact_num" oninput="this.value=this.value.slice(0,this.maxLength)" class="form-control form-control-lg" value="" maxlength="11">
 					<span class="invalid-feedback"></span>
 				</div>
 			</div>
 			<div class="form-group col-md-6">
 				<div class="form-group">
 					<label>Facility Use:<span style="color:red;"><sup>*</sup></span></label><br>
-					<select name="facility name" class="form-control-lg" required>
-						<option value>Basketball</option>
-						<option value>Gym</option>
-						<option value>Swimming Pool</option>
-						<option value>Volleyball</option>
+					<select name="facility" class="form-control-lg" required>
+						<option value="">--SELECT FACILITY--</option>
+						<option value="Basketball">Basketball</option>
+						<option value="Gym">Gym</option>
+						<option value="Swimming Pool">Swimming Pool</option>
+						<option value="Volleyball">Volleyball</option>
 					</select>
 					<span class="invalid-feedback"></span>
 				</div> 
 				<div class="form-group">
 					<label for="timedate">Schedule (date and time):<span style="color:red;"><sup>*</sup></span></label><br>
-					<input type="datetime-local" id="timedate" name="timedate" class="form-control-lg" value="">
+					<input type="datetime-local" name="ind_time" class="form-control-lg" value="" required>
 					<span class="invalid-feedback"></span>
 				</div>
 				<div class="form-group">
-					<form action="upload.php" method="post" enctype="multipart/form-data">
 					<label for="fileToUpload">Insert your ID image:<span style="color:red;"><sup>*</sup></span></label>
-					<input type="file" name="fileToUpload" id="fileToUpload">
+					<input type="file" name="fileToUpload" id="fileToUpload" required>
+				</div>
+				<div class="form-group">
+					<input type="checkbox" value="" id="invalidCheck" required>
+						<label class="form-check-label" for="invalidCheck">Agree to terms and conditions</label>
 				</div>
 			<div class="col" align="center">
-                <input type="submit" class="btn btn-primary btn-block" style="height:40px; width:200px" value="Submit">
+                <input type="submit" name="ind_req" class="btn btn-primary btn-block" style="height:40px; width:200px" value="Submit">
             </div>
+			<br>
+				<div class="col">
+					<?php
+						if(isset($_SESSION['status'])) {
+							echo $_SESSION['status'];
+							unset($_SESSION['status']);
+						}
+					?>		
+				</div>
           	</form>
         	</div>
 		</div>

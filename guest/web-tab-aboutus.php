@@ -53,7 +53,7 @@ require_once(realpath($_SERVER["DOCUMENT_ROOT"]).'\RVMSCHED\RVM-SchedSys\dbcon.p
 					</li>
 
 					<li class="nav-item">
-					    <a class="nav-link" href="web-tab-schedules.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
+					    <a class="nav-link" href="calendar.php"><i class="fa fa-calendar"></i>	Schedules<span class="sr-only"></span></a>
 					</li>
 
 					<li class="nav-item">
